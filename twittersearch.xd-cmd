@@ -1,0 +1,18 @@
+xd:>stream create mytwittersearch --definition
+    "twittersearch
+        --consumerKey=xxx
+        --consumerSecret=xxx
+        --query='deloitte' |
+    log" --deploy
+
+xd:>stream create mytwittersearch --definition
+    "twittersearch
+        --consumerKey=xxx
+        --consumerSecret=xxx
+        --query='deloitte' |
+    json-to-tuple |
+    transform --expression=payload.user.screen_name+'|'+payload.user.name+'|'+payload.text | log" --deploy
+
+xd:>stream create mytwittersearch --definition "twittersearch --query='deloitte' | json-to-tuple | transform --expression='@'+payload.user.screen_name+'|'+payload.user.name+'|'+payload.text | log" --deploy
+
+xd:>stream destroy --name "mytwittersearch"
